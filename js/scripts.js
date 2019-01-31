@@ -34,6 +34,10 @@ var starwarsRepository = (function () {
     $newButtonElement.addEventListener('click', function (event) {
       showDetails(character);
     });
+    $newButtonElement.addEventListener('click', function (event) {
+      var audio = new Audio('files/lasrhit4.mp3');
+      audio.play();
+    });
   }
   // function for showing the details of the characters
   function showDetails(item) {
@@ -57,7 +61,7 @@ var starwarsRepository = (function () {
       });
       currentURL = json.next; // Page that lists next 10 characters
       console.log(currentURL); // Check if correct
-      console.log(characters.length) // Check if new characters were added to characters array
+      console.log(characters.length); // Check if new characters were added to characters array
       if (currentURL !== null) { // Use this as recursion to run function again with next page of characters
         loadList(currentURL);
       }
