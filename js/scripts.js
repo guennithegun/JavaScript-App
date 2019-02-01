@@ -48,7 +48,7 @@ var starwarsRepository = (function () {
   // loading the characters from API
 
   function loadList(link = apiURL, characters = []) {
-    return new Promise ((resolve, reject) => {
+    return new Promise (function (resolve, reject) {
       return fetch(link)
         .then(function (response) {
           return response.json();
