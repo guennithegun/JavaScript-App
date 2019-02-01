@@ -46,43 +46,36 @@ var starwarsRepository = (function () {
     });
   }
   // loading the characters from API
-  function loadList(link = apiURL) {
-    var currentURL = link;
 
-    return fetch(currentURL).then(function (response) {
-      return response.json();
-    }).then(function (json) {
-      json.results.forEach(function (item) {
-        var character = {
-         name: item.name,
-         detailsUrl: item.url
-        };
-        add(character);
-      });
-      currentURL = json.next; // Page that lists next 10 characters
-      console.log(currentURL); // Check if correct
-      console.log(characters.length); // Check if new characters were added to characters array
-      if (currentURL !== null) { // Use this as recursion to run function again with next page of characters
-        loadList(currentURL);
-      }
-    }).catch(function (e) {
-      console.error(e);
+  function loadList(link = apiURL, characters = []) {
+    return new Promise ((resolve, reject) => {
+      return fetch(link)
+        .then(function (response) {
+          return response.json();
+          console.log(response);
+        })
+        .then(function (json) {
+          characters = characters.concat(json.results);
+          json.results.forEach(function (item) {
+            var character = {
+             name: item.name,
+             detailsUrl: item.url
+            };
+            add(character);
+            starwarsRepository.addListItem(character);
+          });
+          if (json.next !== null) {
+            loadList(json.next, characters);
+          } else {
+            resolve(characters);
+          }
+        })
+        .catch(function (e) {
+          console.error(e);
+        })
     })
-    // ORIGINAL CODE commented out
-    /*return fetch(apiURL).then(function (response) {
-      return response.json();
-    }).then(function (json) {
-      json.results.forEach(function (item) {
-        var character = {
-         name: item.name,
-         detailsUrl: item.url
-        };
-        add(character);
-      });
-    }).catch(function (e) {
-      console.error(e);
-    })*/
   }
+
   //selecting the details that should be shown by clicking the button
   function loadDetails(item) {
     var url = item.detailsUrl;
@@ -108,10 +101,5 @@ var starwarsRepository = (function () {
  };
 })();
 
-// forEach() function to create the elements for the DOM
-starwarsRepository.loadList().then(function() {
-  starwarsRepository.getAll().forEach(function(character) {
-    starwarsRepository.addListItem(character);
-  });
-  console.log(starwarsRepository.getAll().length) // checking the length of characters
-});
+// Call loadList() to create the elements for the DOM
+starwarsRepository.loadList()
