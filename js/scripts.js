@@ -35,7 +35,6 @@ var starwarsRepository = (function () {
     // add event listener
     $newButtonElement.addEventListener('click', function (event) {
       showDetails(character);
-      showModal('Luke DaDon', 'Playa da Don');
     });
     $newButtonElement.addEventListener('click', function (event) {
       var audio = new Audio('files/lasrhit4.mp3');
@@ -77,9 +76,7 @@ var starwarsRepository = (function () {
 
 // function for showing the details of the characters in a modal
   function showDetails(item) {
-    starwarsRepository.loadDetails(item).then(function () {
-       console.log(item);
-    });
+    starwarsRepository.loadDetails(item).then(showModal(item.name, item.mass));
   }
 
 // loading the characters from API
@@ -155,4 +152,4 @@ var starwarsRepository = (function () {
 })();
 
 // Call loadList() to create the elements for the DOM
-starwarsRepository.loadList()
+starwarsRepository.loadList();
