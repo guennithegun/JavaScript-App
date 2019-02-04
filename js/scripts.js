@@ -9,10 +9,12 @@ var starwarsRepository = (function () {
   function add(item) {
     characters.push(item);
  }
+
 // function to select characters
   function getAll() {
     return characters;
  }
+
 // function to add List item to DOM
   function addListItem(character) {
     var $unorderedList = document.querySelector('ul');
@@ -33,20 +35,54 @@ var starwarsRepository = (function () {
     // add event listener
     $newButtonElement.addEventListener('click', function (event) {
       showDetails(character);
+      showModal('Luke DaDon', 'Playa da Don');
     });
     $newButtonElement.addEventListener('click', function (event) {
       var audio = new Audio('files/lasrhit4.mp3');
       audio.play();
     });
   }
-  // function for showing the details of the characters
+
+// modal functions (show/hide)
+  function showModal(title, text) {
+    var $modalContainer = document.querySelector('#modal-container');
+    $modalContainer.innerHTML = ''; // clear all content
+
+    var modal = document.createElement('div'); // create inner modal div
+    modal.classList.add('modal');
+    // adding the new content
+    var closeButtonElement = document.createElement('button'); // close button
+    closeButtonElement.classList.add('modal-close');
+    closeButtonElement.innerText = 'Close';
+    closeButtonElement.addEventListener('click', hideModal);
+
+    var titleElement = document.createElement('h1'); // create title element
+    titleElement.innerText = title;
+
+    var contentElement = document.createElement('p'); // create content element
+    contentElement.innerText = text;
+    // apoending elements
+    modal.appendChild(closeButtonElement);
+    modal.appendChild(titleElement);
+    modal.appendChild(contentElement);
+    $modalContainer.appendChild(modal);
+
+    $modalContainer.classList.add('is-visible'); // add class to show modal
+  }
+
+  function hideModal() {
+    var $modalContainer = document.querySelector('#modal-container');
+    $modalContainer.classList.remove('is-visible'); // remove class to hide modal
+  }
+
+// function for showing the details of the characters in a modal
   function showDetails(item) {
     starwarsRepository.loadDetails(item).then(function () {
        console.log(item);
     });
   }
-  // loading the characters from API
 
+// loading the characters from API
   function loadList(link = apiURL, characters = []) {
     return new Promise (function (resolve, reject) {
       return fetch(link)
@@ -90,6 +126,23 @@ var starwarsRepository = (function () {
         console.error(e);
     });
   }
+
+  // eventListeners for closing the modal by pressing ESC or clicking outside modal
+  window.addEventListener('keydown', function(event) { // press ESC
+    var $modalContainer = document.querySelector('#modal-container');
+
+    if (event.key === "Escape" && $modalContainer.classList.contains('is-visible')) {
+      hideModal();
+    }
+  });
+
+  var $modalContainer = document.querySelector('#modal-container'); // click outside modal
+  $modalContainer.addEventListener('click', function(event) {
+    var target = event.target;
+    if (target === $modalContainer) {
+      hideModal();
+    }
+  });
 
   return {
    add: add,
