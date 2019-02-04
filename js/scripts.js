@@ -43,7 +43,7 @@ var starwarsRepository = (function () {
   }
 
 // modal functions (show/hide)
-  function showModal(title, text) {
+  function showModal(title, mass, height, gender) {
     var $modalContainer = document.querySelector('#modal-container');
     $modalContainer.innerHTML = ''; // clear all content
 
@@ -58,12 +58,19 @@ var starwarsRepository = (function () {
     var titleElement = document.createElement('h1'); // create title element
     titleElement.innerText = title;
 
-    var contentElement = document.createElement('p'); // create content element
-    contentElement.innerText = text;
+    var contentElementMass = document.createElement('p'); // create content elements
+    var contentElementHeight = document.createElement('p');
+    var contentElementGender = document.createElement('p');
+    contentElementMass.innerText = 'Mass: ' + mass;
+    contentElementHeight.innerText = 'Height: ' + height;
+    contentElementGender.innerText = 'Gender: ' + gender;
+
     // apoending elements
     modal.appendChild(closeButtonElement);
     modal.appendChild(titleElement);
-    modal.appendChild(contentElement);
+    modal.appendChild(contentElementMass);
+    modal.appendChild(contentElementHeight);
+    modal.appendChild(contentElementGender);
     $modalContainer.appendChild(modal);
 
     $modalContainer.classList.add('is-visible'); // add class to show modal
@@ -76,7 +83,9 @@ var starwarsRepository = (function () {
 
 // function for showing the details of the characters in a modal
   function showDetails(item) {
-    starwarsRepository.loadDetails(item).then(showModal(item.name, item.mass));
+    starwarsRepository.loadDetails(item).then(function (result) {
+      showModal(item.name, item.mass, item.height, item.gender);
+    });
   }
 
 // loading the characters from API
