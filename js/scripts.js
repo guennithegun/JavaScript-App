@@ -4,7 +4,7 @@ var starwarsRepository = (function () {
 // Array with Star Wars Characters as Objects
   var characters = [];
 // API URL
-  var apiURL = 'https://swapi.co/api/people/';
+  var apiURL = 'https://akabab.github.io/starwars-api/api/all.json';
 // function to add characters
   function add(item) {
     characters.push(item);
@@ -43,17 +43,26 @@ var starwarsRepository = (function () {
   }
 
 // modal functions (show/hide)
-  function showModal(title, mass, height, gender) {
+  function showModal(title, mass, height, gender, homeworld, species, more, image) {
     var $modalContainer = document.querySelector('#modal-container');
     $modalContainer.innerHTML = ''; // clear all content
 
     var modal = document.createElement('div'); // create inner modal div
     modal.classList.add('modal');
+
     // adding the new content
-    var closeButtonElement = document.createElement('button'); // close button
-    closeButtonElement.classList.add('modal-close');
-    closeButtonElement.innerText = 'Close';
-    closeButtonElement.addEventListener('click', hideModal);
+    var closeButtonElement = document.createElement('div'); // close button
+    var closeButton = document.createElement('button');
+    closeButtonElement.classList.add('button-element');
+    closeButton.classList.add('modal-close');
+    closeButton.innerText = 'X';
+    closeButton.addEventListener('click', hideModal);
+
+    var imageContainer = document.createElement('div');
+    var characterImage = document.createElement('img');
+    imageContainer.classList.add('image-container');
+    characterImage.setAttribute('src', image);
+    characterImage.classList.add('character-image');
 
     var titleElement = document.createElement('h1'); // create title element
     titleElement.innerText = title;
@@ -61,16 +70,33 @@ var starwarsRepository = (function () {
     var contentElementMass = document.createElement('p'); // create content elements
     var contentElementHeight = document.createElement('p');
     var contentElementGender = document.createElement('p');
+    var contentElementHomeworld = document.createElement('p');
+    var contentElementSpecies = document.createElement('p');
+    var contentElementMore = document.createElement('p');
+    var contentElementMoreLink = document.createElement('a');
     contentElementMass.innerText = 'Mass: ' + mass;
     contentElementHeight.innerText = 'Height: ' + height;
     contentElementGender.innerText = 'Gender: ' + gender;
+    contentElementHomeworld.innerText = 'Homeworld: ' + homeworld;
+    contentElementSpecies.innerText = 'Species: ' + species;
+    contentElementMore.innerText = 'More Details: ';
+    contentElementMoreLink.innerText = 'Here';
+    contentElementMoreLink.setAttribute('href', more);
+    contentElementMoreLink.setAttribute('target', '_blank');
 
     // apoending elements
     modal.appendChild(closeButtonElement);
-    modal.appendChild(titleElement);
+    closeButtonElement.appendChild(closeButton);
+    modal.appendChild(imageContainer);
+    imageContainer.appendChild(characterImage);
+    imageContainer.appendChild(titleElement);
     modal.appendChild(contentElementMass);
     modal.appendChild(contentElementHeight);
     modal.appendChild(contentElementGender);
+    modal.appendChild(contentElementHomeworld);
+    modal.appendChild(contentElementSpecies);
+    modal.appendChild(contentElementMore);
+    contentElementMore.appendChild(contentElementMoreLink);
     $modalContainer.appendChild(modal);
 
     $modalContainer.classList.add('is-visible'); // add class to show modal
@@ -83,43 +109,36 @@ var starwarsRepository = (function () {
 
 // function for showing the details of the characters in a modal
   function showDetails(item) {
-    starwarsRepository.loadDetails(item).then(function (result) {
-      showModal(item.name, item.mass, item.height, item.gender);
-    });
+      showModal(item.name, item.mass, item.height, item.gender, item.homeworld, item.species, item.more, item.img);
   }
 
 // loading the characters from API
-  function loadList(link = apiURL, characters = []) {
-    return new Promise (function (resolve, reject) {
-      return fetch(link)
-        .then(function (response) {
-          return response.json();
-          console.log(response);
-        })
-        .then(function (json) {
-          characters = characters.concat(json.results);
-          json.results.forEach(function (item) {
-            var character = {
-             name: item.name,
-             detailsUrl: item.url
-            };
-            add(character);
-            starwarsRepository.addListItem(character);
-          });
-          if (json.next !== null) {
-            loadList(json.next, characters);
-          } else {
-            resolve(characters);
-          }
-        })
-        .catch(function (e) {
-          console.error(e);
-        })
-    })
-  }
+  function loadList() { // ONE URL FOR ALL CHARACTERS incl PICTURE!!! NOT YET ready
+   return fetch(apiURL)
+    .then(function (response) {
+      return response.json();
+    }).then(function (json) {
+      json.forEach(function (item) {
+        var character = {
+          name: item.name,
+          mass: item.mass,
+          height: item.height,
+          gender: item.gender,
+          homeworld: item.homeworld,
+          species: item.species,
+          more: item.wiki,
+          img: item.image
+        };
+        add(character);
+      });
+   }).catch(function (e) {
+       console.error(e);
+   })
+ }
 
   //selecting the details that should be shown by clicking the button
-  function loadDetails(item) {
+  // COMMENT OUT BECAUSE API HAS NO INDIVIDUAL URL ON EVERY CHARACTER AND FOR THAT FUNCTION IS NOT NECESSARY
+  /*function loadDetails(item) {
     var url = item.detailsUrl;
     return fetch(url).then(function (response) {
         return response.json();
@@ -131,7 +150,7 @@ var starwarsRepository = (function () {
     }).catch(function (e) {
         console.error(e);
     });
-  }
+  }*/
 
   // eventListeners for closing the modal by pressing ESC or clicking outside modal
   window.addEventListener('keydown', function(event) { // press ESC
@@ -155,10 +174,16 @@ var starwarsRepository = (function () {
    getAll: getAll,
    addListItem: addListItem,
    showDetails: showDetails,
-   loadList: loadList,
-   loadDetails: loadDetails
+   loadList: loadList
+   //loadDetails: loadDetails
  };
 })();
 
 // Call loadList() to create the elements for the DOM
-starwarsRepository.loadList();
+/*starwarsRepository.loadList();*/
+
+starwarsRepository.loadList().then(function() {
+  starwarsRepository.getAll().forEach(function(character){
+    starwarsRepository.addListItem(character);
+  });
+});
