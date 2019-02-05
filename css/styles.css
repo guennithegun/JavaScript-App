@@ -138,15 +138,19 @@ button:focus {
   text-align: left;
   color: #F9C22E;
   border-radius: 3px;
-  opacity: 0.8;
+  opacity: 0.9;
+}
+
+.button-element {
+  text-align: right;
 }
 
 .modal-close {
-  float: right;
-  border: 0;
+  border: 1px solid rgb(107, 241, 120);
+  border-radius: 50%;
+  font-weight: 700;
   background: none;
-  color: lightgray;
-  text-decoration: underline;
+  color: var(--primary-color);
   cursor: url("../img/light_saber_green.png"), auto;
 }
 
@@ -157,6 +161,19 @@ button:focus {
 
 .modal p {
   margin-bottom: 0;
+}
+
+.image-container {
+  width: 100%;
+  margin: 10px auto;
+  text-align: center;
+  border-bottom: 1px solid #F9C22E;
+  color: #F9C22E;
+}
+
+.character-image {
+  max-width: 200px;
+  border-radius: 5px;
 }
 
 /* Footer */
