@@ -136,23 +136,7 @@ var starwarsRepository = (function () {
    })
  }
 
-  //selecting the details that should be shown by clicking the button
-  // COMMENT OUT BECAUSE API HAS NO INDIVIDUAL URL ON EVERY CHARACTER AND FOR THAT FUNCTION IS NOT NECESSARY
-  /*function loadDetails(item) {
-    var url = item.detailsUrl;
-    return fetch(url).then(function (response) {
-        return response.json();
-    }).then(function (details) {
-        // Now add the details to the item
-        item.mass = details.mass;
-        item.height = details.height;
-        item.gender = details.gender;
-    }).catch(function (e) {
-        console.error(e);
-    });
-  }*/
-
-  // eventListeners for closing the modal by pressing ESC or clicking outside modal
+// eventListeners for closing the modal by pressing ESC or clicking outside modal
   window.addEventListener('keydown', function(event) { // press ESC
     var $modalContainer = document.querySelector('#modal-container');
 
@@ -175,7 +159,6 @@ var starwarsRepository = (function () {
    addListItem: addListItem,
    showDetails: showDetails,
    loadList: loadList
-   //loadDetails: loadDetails
  };
 })();
 
