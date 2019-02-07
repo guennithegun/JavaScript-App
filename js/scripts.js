@@ -55,10 +55,10 @@ var starwarsRepository = (function () {
     var closeButton = document.createElement('button');
     closeButtonElement.classList.add('button-element');
     closeButton.classList.add('modal-close');
-    closeButton.innerText = 'X';
+    closeButton.innerText = 'Close';
     closeButton.addEventListener('click', hideModal);
 
-    var imageContainer = document.createElement('div');
+    var imageContainer = document.createElement('div'); // image
     var characterImage = document.createElement('img');
     imageContainer.classList.add('image-container');
     characterImage.setAttribute('src', image);
@@ -133,7 +133,7 @@ var starwarsRepository = (function () {
       });
    }).catch(function (e) {
        console.error(e);
-   })
+   });
  }
 
 // eventListeners for closing the modal by pressing ESC or clicking outside modal
