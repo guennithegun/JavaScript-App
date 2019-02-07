@@ -8,12 +8,12 @@ var starwarsRepository = (function () {
 // function to add characters
   function add(item) {
     characters.push(item);
- }
+  }
 
 // function to select characters
   function getAll() {
     return characters;
- }
+  }
 
 // function to add List item to DOM
   function addListItem(character) {
