@@ -146,8 +146,9 @@ button:focus {
 }
 
 .modal-close {
-  border: 1px solid rgb(107, 241, 120);
-  border-radius: 50%;
+  border: 0;
+  text-decoration: underline;
+  text-decoration-color: rgb(107, 241, 120);
   font-weight: 700;
   background: none;
   color: var(--primary-color);
