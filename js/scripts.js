@@ -109,11 +109,11 @@ var starwarsRepository = (function () {
 
 // function for showing the details of the characters in a modal
   function showDetails(item) {
-      showModal(item.name, item.mass, item.height, item.gender, item.homeworld, item.species, item.more, item.img);
+    showModal(item.name, item.mass, item.height, item.gender, item.homeworld, item.species, item.more, item.img);
   }
 
 // loading the characters from API
-  function loadList() { // ONE URL FOR ALL CHARACTERS incl PICTURE!!! NOT YET ready
+  function loadList() {
    return fetch(apiURL)
     .then(function (response) {
       return response.json();
@@ -131,10 +131,10 @@ var starwarsRepository = (function () {
         };
         add(character);
       });
-   }).catch(function (e) {
+    }).catch(function (e) {
        console.error(e);
-   });
- }
+    });
+  }
 
 // eventListeners for closing the modal by pressing ESC or clicking outside modal
   window.addEventListener('keydown', function(event) { // press ESC
@@ -163,7 +163,6 @@ var starwarsRepository = (function () {
 })();
 
 // Call loadList() to create the elements for the DOM
-/*starwarsRepository.loadList();*/
 
 starwarsRepository.loadList().then(function() {
   starwarsRepository.getAll().forEach(function(character){
