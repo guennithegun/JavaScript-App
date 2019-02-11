@@ -1,30 +1,146 @@
 // New Code using IIFE
 
-var starwarsRepository = (function () {
+var nhlTeamsRepository = (function () {
 // Array with Star Wars Characters as Objects
-  var characters = [];
+  var teams = [];
 // API URL
-  var apiURL = 'https://akabab.github.io/starwars-api/api/all.json';
+  var apiURL = 'https://statsapi.web.nhl.com/api/v1/teams/';
+
+// object with team logos
+  var teamLogos = [
+    {
+      abbreviation: 'TBL',
+      logoURL: 'img/logos/tampabay.png'
+    },
+    {
+      abbreviation: 'NYI',
+      logoURL: 'img/logos/islanders.png'
+    },
+    {
+      abbreviation: 'NJD',
+      logoURL: 'img/logos/newjersey.png'
+    },
+    {
+      abbreviation: 'NYR',
+      logoURL: 'img/logos/newyorkrangers.png'
+    },
+    {
+      abbreviation: 'PHI',
+      logoURL: 'img/logos/philadelphia.png'
+    },{
+      abbreviation: 'PIT',
+      logoURL: 'img/logos/penguins.png'
+    },
+    {
+      abbreviation: 'BOS',
+      logoURL: 'img/logos/boston.png'
+    },{
+      abbreviation: 'BUF',
+      logoURL: 'img/logos/buffalo.png'
+    },
+    {
+      abbreviation: 'MTL',
+      logoURL: 'img/logos/montreal.png'
+    },{
+      abbreviation: 'OTT',
+      logoURL: 'img/logos/ottawa.png'
+    },
+    {
+      abbreviation: 'TOR',
+      logoURL: 'img/logos/toronto.png'
+    },{
+      abbreviation: 'CAR',
+      logoURL: 'img/logos/carolinahurricanes.png'
+    },
+    {
+      abbreviation: 'FLA',
+      logoURL: 'img/logos/floridapanthers.png'
+    },{
+      abbreviation: 'WSH',
+      logoURL: 'img/logos/washington.png'
+    },
+    {
+      abbreviation: 'CHI',
+      logoURL: 'img/logos/chicago.png'
+    },{
+      abbreviation: 'DET',
+      logoURL: 'img/logos/redwings.png'
+    },
+    {
+      abbreviation: 'NSH',
+      logoURL: 'img/logos/nashville.png'
+    },{
+      abbreviation: 'STL',
+      logoURL: 'img/logos/stlouisblues.png'
+    },
+    {
+      abbreviation: 'CGY',
+      logoURL: 'img/logos/calgaryflames.png'
+    },{
+      abbreviation: 'COL',
+      logoURL: 'img/logos/colorado.png'
+    },
+    {
+      abbreviation: 'EDM',
+      logoURL: 'img/logos/edmonton.png'
+    },{
+      abbreviation: 'VAN',
+      logoURL: 'img/logos/vancouver.png'
+    },
+    {
+      abbreviation: 'ANA',
+      logoURL: 'img/logos/anaheim.png'
+    },{
+      abbreviation: 'DAL',
+      logoURL: 'img/logos/dallas.png'
+    },
+    {
+      abbreviation: 'LAK',
+      logoURL: 'img/logos/losangeles.png'
+    },{
+      abbreviation: 'SJS',
+      logoURL: 'img/logos/sanjose.png'
+    },
+    {
+      abbreviation: 'CBJ',
+      logoURL: 'img/logos/columbus.png'
+    },{
+      abbreviation: 'MIN',
+      logoURL: 'img/logos/minnesota.png'
+    },
+    {
+      abbreviation: 'WPG',
+      logoURL: 'img/logos/winnipegjets.png'
+    },{
+      abbreviation: 'ARI',
+      logoURL: 'img/logos/arizonacoyotes.png'
+    },
+    {
+      abbreviation: 'VGK',
+      logoURL: 'img/logos/vegas.png'
+    }
+  ];
+
 // function to add characters
   function add(item) {
-    characters.push(item);
+    teams.push(item);
   }
 
 // function to select characters
   function getAll() {
-    return characters;
+    return teams;
   }
 
 // function to add List item to DOM
-  function addListItem(character) {
+  function addListItem(team) {
     var $unorderedList = document.querySelector('ul');
     // create necessary elements
     var $newListElement = document.createElement('li');
-    var $newSpanElement = document.createElement('span');
+    var $newSpanElement = document.createElement('p');
     var $newButtonElement = document.createElement('button');
     // inner text for elements
-    $newButtonElement.innerText = '+';
-    $newSpanElement.innerText = character.name;
+    $newButtonElement.innerText = 'more';
+    $newSpanElement.innerText = team.name;
     // add the classes
     $newListElement.classList.add('content__item');
     $newButtonElement.classList.add('content__item--button');
@@ -34,16 +150,12 @@ var starwarsRepository = (function () {
     $newListElement.appendChild($newButtonElement);
     // add event listener
     $newButtonElement.addEventListener('click', function (event) {
-      showDetails(character);
-    });
-    $newButtonElement.addEventListener('click', function (event) {
-      var audio = new Audio('files/lasrhit4.mp3');
-      audio.play();
+      showDetails(team);
     });
   }
 
 // modal functions (show/hide)
-  function showModal(title, mass, height, gender, homeworld, species, more, image) {
+  function showModal(title, venue, abbreviation, location, teamName, firstYearOfPlay, division, conference, franchiseName, shortName, logo, more) {
     var $modalContainer = document.querySelector('#modal-container');
     $modalContainer.innerHTML = ''; // clear all content
 
@@ -59,27 +171,35 @@ var starwarsRepository = (function () {
     closeButton.addEventListener('click', hideModal);
 
     var imageContainer = document.createElement('div'); // image
-    var characterImage = document.createElement('img');
+    var nhlImage = document.createElement('img');
     imageContainer.classList.add('image-container');
-    characterImage.setAttribute('src', image);
-    characterImage.classList.add('character-image');
+    nhlImage.setAttribute('src', logo);
+    nhlImage.classList.add('logo-image');
 
     var titleElement = document.createElement('h1'); // create title element
     titleElement.innerText = title;
 
-    var contentElementMass = document.createElement('p'); // create content elements
-    var contentElementHeight = document.createElement('p');
-    var contentElementGender = document.createElement('p');
-    var contentElementHomeworld = document.createElement('p');
-    var contentElementSpecies = document.createElement('p');
+    var contentElementVenue = document.createElement('p'); // create content elements
+    var contentElementAbbreviation = document.createElement('p');
+    var contentElementLocation = document.createElement('p');
+    var contentElementTeamName = document.createElement('p');
+    var contentElementFirstYearOfPlay = document.createElement('p');
+    var contentElementDivision = document.createElement('p');
+    var contentElementConference = document.createElement('p');
+    var contentElementFranchiseName = document.createElement('p');
+    var contentElementShortName = document.createElement('p');
     var contentElementMore = document.createElement('p');
     var contentElementMoreLink = document.createElement('a');
-    contentElementMass.innerText = 'Mass: ' + mass;
-    contentElementHeight.innerText = 'Height: ' + height;
-    contentElementGender.innerText = 'Gender: ' + gender;
-    contentElementHomeworld.innerText = 'Homeworld: ' + homeworld;
-    contentElementSpecies.innerText = 'Species: ' + species;
-    contentElementMore.innerText = 'More Details: ';
+    contentElementVenue.innerText = 'Venue: ' + venue;
+    contentElementAbbreviation.innerText = 'Abbreviation: ' + abbreviation;
+    contentElementLocation.innerText = 'Location: ' + location;
+    contentElementTeamName.innerText = 'Team Name: ' + teamName;
+    contentElementFirstYearOfPlay.innerText = 'First Year of Play: ' + firstYearOfPlay;
+    contentElementDivision.innerText = 'Division: ' + division;
+    contentElementConference.innerText = 'Conference: ' + conference;
+    contentElementFranchiseName.innerText = 'Franchise Name: ' + franchiseName;
+    contentElementShortName.innerText = 'Short Name: ' + shortName;
+    contentElementMore.innerText = 'Official Site URL: ';
     contentElementMoreLink.innerText = 'Here';
     contentElementMoreLink.setAttribute('href', more);
     contentElementMoreLink.setAttribute('target', '_blank');
@@ -88,13 +208,17 @@ var starwarsRepository = (function () {
     modal.appendChild(closeButtonElement);
     closeButtonElement.appendChild(closeButton);
     modal.appendChild(imageContainer);
-    imageContainer.appendChild(characterImage);
+    imageContainer.appendChild(nhlImage);
     imageContainer.appendChild(titleElement);
-    modal.appendChild(contentElementMass);
-    modal.appendChild(contentElementHeight);
-    modal.appendChild(contentElementGender);
-    modal.appendChild(contentElementHomeworld);
-    modal.appendChild(contentElementSpecies);
+    modal.appendChild(contentElementVenue);
+    modal.appendChild(contentElementAbbreviation);
+    modal.appendChild(contentElementLocation);
+    modal.appendChild(contentElementTeamName);
+    modal.appendChild(contentElementFirstYearOfPlay);
+    modal.appendChild(contentElementDivision);
+    modal.appendChild(contentElementConference);
+    modal.appendChild(contentElementFranchiseName);
+    modal.appendChild(contentElementShortName);
     modal.appendChild(contentElementMore);
     contentElementMore.appendChild(contentElementMoreLink);
     $modalContainer.appendChild(modal);
@@ -109,7 +233,7 @@ var starwarsRepository = (function () {
 
 // function for showing the details of the characters in a modal
   function showDetails(item) {
-    showModal(item.name, item.mass, item.height, item.gender, item.homeworld, item.species, item.more, item.img);
+    showModal(item.name, item.venue, item.abbreviation, item.location, item.teamName, item.firstYearOfPlay, item.division, item.conference, item.franchiseName, item.shortName, item.logo, item.more);
   }
 
 // loading the characters from API
@@ -118,18 +242,24 @@ var starwarsRepository = (function () {
     .then(function (response) {
       return response.json();
     }).then(function (json) {
-      json.forEach(function (item) {
-        var character = {
+      json.teams.forEach(function (item) {
+        var findLogo = teamLogos.find(findLogo => findLogo.abbreviation === item.abbreviation);
+        console.log(findLogo.logoURL);
+        var team = {
           name: item.name,
-          mass: item.mass,
-          height: item.height,
-          gender: item.gender,
-          homeworld: item.homeworld,
-          species: item.species,
-          more: item.wiki,
-          img: item.image
+          venue: item.venue.name,
+          abbreviation: item.abbreviation,
+          location: item.locationName,
+          teamName: item.teamName,
+          firstYearOfPlay: item.firstYearOfPlay,
+          division: item.division.name,
+          conference: item.conference.name,
+          franchiseName: item.franchise.teamName,
+          shortName: item.shortName,
+          logo: findLogo.logoURL,
+          more: item.officialSiteUrl
         };
-        add(character);
+        add(team);
       });
     }).catch(function (e) {
        console.error(e);
@@ -164,8 +294,8 @@ var starwarsRepository = (function () {
 
 // Call loadList() to create the elements for the DOM
 
-starwarsRepository.loadList().then(function() {
-  starwarsRepository.getAll().forEach(function(character){
-    starwarsRepository.addListItem(character);
+nhlTeamsRepository.loadList().then(function() {
+  nhlTeamsRepository.getAll().forEach(function(team){
+    nhlTeamsRepository.addListItem(team);
   });
 });

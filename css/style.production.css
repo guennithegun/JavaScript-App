@@ -1,7 +1,7 @@
 /* Basics */
 
 html {
-  background: url("../img/landscape.jpg") no-repeat center right fixed;
+  background: url("../img/cut.jpg") no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -21,7 +21,7 @@ body {
 
 a {
   text-decoration: none;
-  color: #E84855;
+  color: #2176FF;
 }
 
 h1 {
@@ -44,6 +44,8 @@ hr {
   border: 0;
   height: 2px;
   background-image: -webkit-gradient(linear, left top, right top, from(rgba(107, 241, 120, 0)), color-stop(rgba(107, 241, 120, 0.75)), to(rgba(107, 241, 120, 0)));
+  background-image: -webkit-linear-gradient(left, rgba(107, 241, 120, 0), rgba(107, 241, 120, 0.75), rgba(107, 241, 120, 0));
+  background-image: -o-linear-gradient(left, rgba(107, 241, 120, 0), rgba(107, 241, 120, 0.75), rgba(107, 241, 120, 0));
   background-image: linear-gradient(to right, rgba(107, 241, 120, 0), rgba(107, 241, 120, 0.75), rgba(107, 241, 120, 0));
 }
 
@@ -51,9 +53,13 @@ hr {
 
 .page-header {
   text-align: center;
+  background-color: rgba(61, 220, 151, 0.8);
+  width: 100%;
+  margin: 0;
 }
 .page-header__item {
   color: #FAFAFA;
+  margin: 0;
 }
 
 /* Content */
@@ -64,29 +70,50 @@ hr {
 
 .content ul {
   padding: 0;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+  grid-template-columns: 1fr;
+  grid-gap: 15px;
 }
 
 .content__item {
   width: 100%;
+  height: 150px;
   padding: 10px;
   margin: 15px 0;
-  background-color: rgba(232, 72, 85, 0.8);
+  background-color: rgba(33, 118, 255, 0.9);
   border-radius: 5px;
   list-style: none;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-line-pack: justify;
+  align-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  color: #FAFAFA;
+  -webkit-transition: background-color 0.3s;
+  -o-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+}
+
+.content__item:hover {
+  background-color: rgba(236, 11, 67, 0.9);
 }
 
 .content__item--button {
-  border: 1px solid #FAFAFA;
-  border-radius: 50%;
+  border: 2px solid #FAFAFA;
   background-color: transparent;
   color: #FAFAFA;
-  cursor: url("../img/light_saber_green.png"), auto;
+  cursor: pointer;
+  width: 50%;
+  padding: 10px;
 }
 
 button:focus {
@@ -121,14 +148,14 @@ button:focus {
   margin: auto;
   display: inline-block;
   background-color: white;
-  background-image: url("../img/space.png");
+  background-image: url("../img/ice.jpg");
   background-size: cover;
   background-position: center;
   padding: 15px;
   width: 100%;
   max-width: 700px;
   text-align: left;
-  color: #F9C22E;
+  color: #EC0B43;
   border-radius: 3px;
   opacity: 0.9;
 }
@@ -139,12 +166,12 @@ button:focus {
 
 .modal-close {
   border: 0;
-  text-decoration: underline;
+  -webkit-text-decoration-color: rgb(107, 241, 120);
   text-decoration-color: rgb(107, 241, 120);
   font-weight: 700;
   background: none;
-  color: #E84855;
-  cursor: url("../img/light_saber_green.png"), auto;
+  color: #2176FF;
+  cursor: pointer;
 }
 
 .modal h1 {
@@ -160,11 +187,11 @@ button:focus {
   width: 100%;
   margin: 10px auto;
   text-align: center;
-  border-bottom: 1px solid #F9C22E;
-  color: #F9C22E;
+  border-bottom: 1px solid #EC0B43;
+  color: #29339B;
 }
 
-.character-image {
+.logo-image {
   max-width: 200px;
   border-radius: 5px;
 }
@@ -174,11 +201,19 @@ button:focus {
 .footer {
   text-align: center;
   max-width: 700px;
-  margin: 50px auto;
+  margin: 50px auto 0 auto;
+  background-color: rgba(61, 220, 151, 0.8);
 }
 
 .footer_item {
   color: #FAFAFA;
+}
+
+@media all and (min-width: 400px) {
+  .content ul {
+    -ms-grid-columns: 1fr 15px 1fr;
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media all and (min-width: 700px) {
@@ -186,12 +221,12 @@ button:focus {
     max-width: 700px;
   }
 
-  body {
-    padding: 0;
+  .content ul {
+    -ms-grid-columns: 1fr 15px 1fr 15px 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 
-  html {
-    background: url("../img/landscape.jpg") no-repeat center center fixed;
-    background-size: cover;
+  body {
+    padding: 0;
   }
 }
