@@ -16,8 +16,13 @@
 /* Basics */
 
 html {
-  background: url("../img/cut.jpg") no-repeat center center fixed;
+  /*background: url("../img/cut.jpg") no-repeat center center fixed;*/
+  background-image: url("../img/cut.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+  height: 100%;
 }
 
 body {
