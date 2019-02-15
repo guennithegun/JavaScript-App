@@ -45,7 +45,7 @@ hr {
 }
 
 .background-image {
-  background: url("../img/cut.jpg") no-repeat center center fixed;
+  background: url("../img/cut.jpg") no-repeat center center scroll;
   background-size: cover;
   background-color: rgba(083, 58, 113, 0.7);
   width: 100%;
