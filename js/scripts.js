@@ -244,7 +244,6 @@ var nhlTeamsRepository = (function () {
     }).then(function (json) {
       json.teams.forEach(function (item) {
         var findLogo = teamLogos.find(findLogo => findLogo.abbreviation === item.abbreviation);
-        console.log(findLogo.logoURL);
         var team = {
           name: item.name,
           venue: item.venue.name,
